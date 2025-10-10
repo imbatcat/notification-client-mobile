@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "802637195006",
+    "project_id": "sep492-4b3bd",
+    "storage_bucket": "sep492-4b3bd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802637195006:android:ef4fc838545f73e9c9a7af",
+        "android_client_info": {
+          "package_name": "com.fitbridge.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUlu-XCBhHqb8cQkMyb38L49SiCZh5fpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802637195006:android:2b9873c06d45e639c9a7af",
+        "android_client_info": {
+          "package_name": "com.oranged_cat.notificationclient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUlu-XCBhHqb8cQkMyb38L49SiCZh5fpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
