@@ -59,7 +59,7 @@ class SignalRService {
         10
       );
       const keepAliveMs = parseInt(
-        process.env.EXPO_PUBLIC_SIGNALR_KEEPALIVE_MS ?? "10000",
+        process.env.EXPO_PUBLIC_SIGNALR_KEEPALIVE_MS ?? "30000",
         10
       );
 
@@ -157,6 +157,21 @@ class SignalRService {
     }
   }
 
+  async resumeConnection() {
+    if (this.#connection) {
+      await this.#connection.start();
+      this.triggerCallback("onReconnecting");
+      console.log("SignalR: Connection resumed");
+    }
+  }
+
+  async pauseConnection() {
+    if (this.#connection) {
+      await this.#connection.stop();
+      console.log("SignalR: Connection paused");
+    }
+  }
+
   onEvent(eventName, callback) {
     if (typeof eventName !== "string" || !eventName.trim()) {
       throw new Error("Event name must be a non-empty string");
@@ -169,7 +184,11 @@ class SignalRService {
       this.#connectionCallbacks.set(eventName, new Set());
     }
     this.#connectionCallbacks.get(eventName).add(callback);
-    console.log(`SignalR: Event '${eventName}' now has ${this.#connectionCallbacks.get(eventName).size} callback(s)`);
+    console.log(
+      `SignalR: Event '${eventName}' now has ${
+        this.#connectionCallbacks.get(eventName).size
+      } callback(s)`
+    );
   }
 
   offEvent(eventName, callback) {

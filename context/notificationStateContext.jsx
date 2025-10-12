@@ -37,6 +37,10 @@ export const NotificationStateProvider = ({ children }) => {
   const [refreshing, setRefreshing] = useState(false);
   const { service: signalrService } = useSignalR();
 
+  const handleOnReconnecting = useCallback(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
+
   useEffect(() => {
     console.log("notificationStateProvider");
     if (!authUtils.isAuthenticated()) {
@@ -50,7 +54,7 @@ export const NotificationStateProvider = ({ children }) => {
       );
       fetchNotifications();
     } else {
-      signalrService.once(LIFECYCLE_METHODS.ON_CONNECTED, () => {
+      signalrService.onEvent(LIFECYCLE_METHODS.ON_CONNECTED, () => {
         console.log("SignalR: Connection connected");
         registerHandlers(
           signalrService.connection,
@@ -60,11 +64,13 @@ export const NotificationStateProvider = ({ children }) => {
       });
     }
 
+    signalrService.onEvent(LIFECYCLE_METHODS.ON_RECONNECTING, handleOnReconnecting);
+
     signalrService.onEvent(CLIENT_METHODS.NOTIFICATION_RECEIVED, () => {
       console.log("Received notification: received");
       setPingCount((prev) => prev + 1);
-      fetchNotifications();
       signalrService.invokeHubMethod(HUB_METHODS.CONFIRM_HANDSHAKE);
+      fetchNotifications();
     });
   }, []);
 
